@@ -5,6 +5,7 @@ import com.example.upiparser.model.Transaction;
 import com.example.upiparser.payload.ApiResponse;
 import com.example.upiparser.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -17,10 +18,20 @@ public class TransactionController {
     private TransactionService service;
 
     @PostMapping("/parse")
-    public ApiResponse<Transaction> parseSMS(@RequestBody TransactionDTO dto) {
+    public ResponseEntity<ApiResponse<?>> parseSMS(@RequestBody TransactionDTO dto) {
+
         Transaction t = service.parseAndSave(dto);
-        return new ApiResponse<>(true, "Transaction parsed successfully", t);
+
+        if (t == null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(ApiResponse.error("Unable to parse SMS"));
+        }
+
+        return ResponseEntity
+                .ok(ApiResponse.success("Parsed successfully", t));
     }
+
     @GetMapping
     public ApiResponse<List<Transaction>> getAll() {
         return new ApiResponse<>(true, "All transactions fetched", service.getAll());
