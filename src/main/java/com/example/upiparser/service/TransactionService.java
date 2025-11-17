@@ -43,4 +43,18 @@ public class TransactionService {
         }
         return map;
     }
+    
+    public List<Transaction> getByMerchant(String name) {
+        if (name == null || name.isBlank()) return Collections.emptyList();
+
+        List<Transaction> result = new ArrayList<>();
+        for (Transaction t : transactions) {
+            // use case-insensitive comparison
+            if (t.getMerchant() != null && t.getMerchant().equalsIgnoreCase(name.trim())) {
+                result.add(t);
+            }
+        }
+        return result;
+    }
+
 }

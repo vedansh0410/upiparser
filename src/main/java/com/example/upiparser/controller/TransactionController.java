@@ -46,4 +46,16 @@ public class TransactionController {
     public Map<String, Integer> getMerchantCount() {
         return service.getMerchantCount();
     }
+    
+    @GetMapping("/merchant/{name}")
+    public ResponseEntity<ApiResponse<List<Transaction>>> getByMerchant(@PathVariable String name) {
+        List<Transaction> list = service.getByMerchant(name);
+        if (list == null || list.isEmpty()) {
+            return ResponseEntity
+                    .status(404)
+                    .body(ApiResponse.error("No transactions found for merchant: " + name));
+        }
+        return ResponseEntity.ok(new ApiResponse<>(true, "Transactions for merchant: " + name, list));
+    }
+
 }
