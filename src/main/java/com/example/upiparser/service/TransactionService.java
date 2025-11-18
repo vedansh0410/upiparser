@@ -10,7 +10,7 @@ import java.util.*;
 @Service
 public class TransactionService {
 
-    private final List<Transaction> transactions = new ArrayList<>();
+    private final List<Transaction> transactions =Collections.synchronizedList(new ArrayList<>());
     private final SMSParser parser = new SMSParser();
 
     public Transaction parseAndSave(TransactionDTO dto) {
