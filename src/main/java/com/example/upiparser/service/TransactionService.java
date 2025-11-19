@@ -9,7 +9,7 @@ import java.util.*;
 
 @Service
 public class TransactionService {
-
+     //synchronizing the transitions object to prevent race condition
     private final List<Transaction> transactions =Collections.synchronizedList(new ArrayList<>());
     private final SMSParser parser = new SMSParser();
 
