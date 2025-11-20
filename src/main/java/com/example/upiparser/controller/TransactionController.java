@@ -58,4 +58,13 @@ public class TransactionController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Transactions for merchant: " + name, list));
     }
 
+    @GetMapping("/count")
+    public ApiResponse<Integer> getTransactionCount() {
+        return new ApiResponse<>(
+                true,
+                "Total transactions count fetched",
+                service.getTransactionCount()
+        );
+    }
+
 }

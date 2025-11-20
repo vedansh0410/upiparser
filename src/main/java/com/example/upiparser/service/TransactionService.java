@@ -56,5 +56,9 @@ public class TransactionService {
         }
         return result;
     }
+    //(/count) Total transitions
+    public int getTransactionCount() {
+        return transactions.size();
+    }
 
 }
