@@ -1,6 +1,8 @@
 package com.example.upiparser.controller;
 
 import com.example.upiparser.dto.TransactionDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.example.upiparser.model.Transaction;
 import com.example.upiparser.payload.ApiResponse;
 import com.example.upiparser.service.TransactionService;
@@ -14,20 +16,30 @@ import java.util.*;
 @RequestMapping("/api/transactions")
 public class TransactionController {
 
+	// Logger to track API requests, responses, and debugging information
+	 private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
+
     @Autowired
     private TransactionService service;
 
     @PostMapping("/parse")
     public ResponseEntity<ApiResponse<?>> parseSMS(@RequestBody TransactionDTO dto) {
-
+    	
+    	// Log incoming SMS before parsing
+    	logger.info("Received SMS parse request: {}", dto.getSmsText());
+    	
         Transaction t = service.parseAndSave(dto);
 
         if (t == null) {
+        	// Warn when no valid transaction is found in SMS
+        	logger.warn("Parsing failed. No transaction detected.");
             return ResponseEntity
                     .badRequest()
                     .body(ApiResponse.error("Unable to parse SMS"));
         }
-
+        
+        // Log parsed transaction details
+        logger.info("Parsing completed successfully. Merchant={} Amount={}", t.getMerchant(), t.getAmount());
         return ResponseEntity
                 .ok(ApiResponse.success("Parsed successfully", t));
     }
