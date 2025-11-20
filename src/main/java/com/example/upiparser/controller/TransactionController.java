@@ -57,7 +57,8 @@ public class TransactionController {
         }
         return ResponseEntity.ok(new ApiResponse<>(true, "Transactions for merchant: " + name, list));
     }
-
+    
+    //Total Transitions count
     @GetMapping("/count")
     public ApiResponse<Integer> getTransactionCount() {
         return new ApiResponse<>(
