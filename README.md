@@ -163,5 +163,3 @@ Backend Developer (Java | Spring Boot)
 ---
 ⭐ **Support the Project**
 If this project helped you, please ⭐ star the repo!
-
-If this project helped you, please ⭐ star the repo!
