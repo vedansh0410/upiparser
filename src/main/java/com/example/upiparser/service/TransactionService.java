@@ -3,6 +3,8 @@ package com.example.upiparser.service;
 import com.example.upiparser.dto.TransactionDTO;
 import com.example.upiparser.model.Transaction;
 import com.example.upiparser.parser.SMSParser;
+import com.example.upiparser.util.FileUtil;
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,6 +16,9 @@ public class TransactionService {
     private final SMSParser parser = new SMSParser();
 
     public Transaction parseAndSave(TransactionDTO dto) {
+    	//Saving Raw SMS 
+    	FileUtil.saveRawSMS(dto.getSmsText());
+    	
         Transaction t = parser.parse(dto.getSmsText());
 
         if (t != null) {
