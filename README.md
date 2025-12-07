@@ -1,30 +1,57 @@
-# 📌 UPI SMS Parsing System
+# 🚀 UPI SMS Parsing System 
 
-A lightweight **Spring Boot** backend that extracts UPI transaction details from SMS text using **Regex parsing** and provides structured **REST APIs** for further analysis.
+A clean and upgraded **Spring Boot backend** that extracts UPI transaction details from raw SMS using Regex parsing, logs raw messages into files, stores transactions in memory, and provides multiple REST APIs for analytics.
 
-## 🚀 Key Features
+---
 
-* ✅ Extract amount from SMS
-* ✅ Extract merchant name
-* ✅ Completely backend-driven UPI SMS parsing
-* ✅ Global API Response format (`ApiResponse<T>`)
-* ✅ Global Exception Handler
-* ✅ **Endpoints for:**
-    * Parsing SMS
-    * Fetching all transactions
-    * Total expenditure
-    * Merchant-wise count
+## 🔥 Features
 
-## 🧠 Tech Stack
+### ✔ SMS Parsing Engine  
+Parses:
+- Amount  
+- Merchant  
+- Raw SMS text  
+- Timestamp (System.currentTimeMillis())
 
-| Layer | Technology |
-| :--- | :--- |
-| Backend | Spring Boot (Web) |
-| Language | Java 21 |
-| Parsing Engine | Regex Pattern + Matcher |
-| Response Format | Custom `ApiResponse<T>` |
-| Storage | In-Memory (`List<Transaction>`) |
-| Tools | Postman / cURL |
+### ✔ Raw SMS Logging (NEW)  
+Every incoming SMS is saved inside:
+
+src/main/resources/static/logs/raw_sms_log.txt
+
+Using:
+
+util/FileUtil.java
+
+
+### ✔ Upgraded Transaction Model  
+Now contains:
+
+| Field | Description |
+|------|-------------|
+| amount | Parsed ₹ amount |
+| merchant | Extracted merchant |
+| smsText | Raw full SMS |
+| timestamp | Time of parsing |
+
+### ✔ Enhanced Service Layer  
+TransactionService now:
+- Logs raw SMS  
+- Calls parser  
+- Stores fully-built Transaction objects  
+- Provides analytics endpoints  
+
+### ✔ Updated Parser  
+Regex unchanged, but parser now returns:
+
+new Transaction(amount, merchant, rawSms, timestamp)
+
+
+### ✔ Better Logging Using SLF4J  
+- `info()` → important events  
+- `debug()` → regex + parsing internals  
+- `warn()` → when no match found  
+
+---
 
 ## 📂 Project Structure
 
@@ -47,6 +74,16 @@ src/main/java/com/example/upiparser
 ├── parser
 
 │   └── SMSParser.java
+
+├── repository
+
+│    └── TransactionRepository.java
+
+│
+
+├── util
+
+│    └── FileUtil.java
 
 │
 
@@ -78,6 +115,20 @@ src/main/java/com/example/upiparser
 
 └── UpiParserApplication.java
 
+src/main/resources
+
+│
+
+├── application.properties
+
+│
+
+└── static
+
+└── logs
+
+└── raw_sms_log.txt ← NEW (SMS log file)
+
 ## 🔥 API Endpoints
 
 ### 1️⃣ Parse SMS
@@ -87,19 +138,22 @@ src/main/java/com/example/upiparser
 * **Request Body:**
     ```json
     {
-      "smsText": "Paid ₹250 to Amazon"
+      "smsText": "Debited ₹1600 to Meemansa via GooglePay"
     }
     ```
 * **Response:**
     ```json
     {
-      "success": true,
-      "message": "Parsed successfully",
-      "data": {
-        "amount": 250,
-        "merchant": "Amazon"
-      }
-    }
+  "success": true,
+  "message": "Parsed successfully",
+  "data": {
+    "id": 12,
+    "amount": 1600,
+    "merchant": "Meemansa",
+    "smsText": "Debited ₹1600 to Meemansa via GooglePay",
+    "timestamp": 1735752942000
+  }
+}
     ```
 
 ### 2️⃣ Get All Transactions
@@ -142,8 +196,8 @@ src/main/java/com/example/upiparser
 
 ## 🌱 Future Enhancements
 
-* 📌 Save transactions to **MySQL**
-* 📌 Add timestamp, transaction ID
+* 📌 Save transactions to **MySQL** (Completed)
+* 📌 Add timestamp, transaction (Completed)
 * 📌 Detect UPI apps (GPay/Paytm/PhonePe)
 * 📌 Monthly analytics
 * 📌 Daily/Weekly spending summary
