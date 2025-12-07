@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration;
 
 @SpringBootApplication(exclude = {
-        DataSourceAutoConfiguration.class,                 // Disable DB
+       // DataSourceAutoConfiguration.class,                 // Disable DB
         SecurityAutoConfiguration.class,                  // Disable Spring Security
         ManagementWebSecurityAutoConfiguration.class      // Disable Actuator Security
 })
