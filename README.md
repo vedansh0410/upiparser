@@ -13,12 +13,12 @@
 
  Paste a UPI SMS → Get structured transaction data, analytics, and insights — instantly.
 
-[Features](#-key-features) • [Tech Stack](#-tech-stack) • [Project Structure](#-project-structure) • [API Docs](#-api-endpoints) • [Setup](#-local-setup) • [Frontend Guide](#-frontend-setup-guide) • [Roadmap](#-roadmap)
+[Features](#features) • [Tech Stack](#tech-stack) • [Project Structure](#structure) • [API Docs](#api) • [Setup](#setup) • [Frontend Guide](#frontend) • [Roadmap](#roadmap)
 
 </div>
 
 ---
-
+<a name="features"></a>
 ## ✨ Key Features
 
 | Feature | Description |
@@ -33,7 +33,7 @@
 | 🔗 Proxy Setup | Vite dev proxy — zero CORS issues in development |
 
 ---
-
+<a name="tech-stack"></a>
 ## 🧠 Tech Stack
 
 ### Backend
@@ -59,7 +59,7 @@
 | Dev Proxy | Vite proxy to localhost:8080 |
 
 ---
-
+<a name="structure"></a>
 ## 📂 Project Structure
 
 ```
@@ -107,7 +107,7 @@ upiparser/                               ← Monorepo root
 ```
 
 ---
-
+<a name="api"></a>
 ## 🔥 API Endpoints
 
 ### POST /api/transactions/parse
@@ -194,7 +194,7 @@ GET /api/transactions/merchant/Swiggy
 ```
 
 ---
-
+<a name="setup"></a>
 ## 🛠️ Local Setup
 
 ### Prerequisites
@@ -271,7 +271,7 @@ npm run dev
 Open **http://localhost:5173** in your browser.
 
 ---
-
+<a name="frontend"></a>
 ## 🖥️ Frontend Setup Guide
 
 ### How the Connection Works
@@ -351,7 +351,7 @@ Sent ₹1200 to Rahul via BHIM UPI
 | Maven not found | Use `mvnw.cmd` (Windows) or `./mvnw` (Mac/Linux) instead |
 
 ---
-
+<a name="roadmap"></a>
 ## 🌱 Roadmap
 
 - [x] Regex-based SMS parsing
