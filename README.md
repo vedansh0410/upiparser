@@ -13,7 +13,7 @@
 
  Paste a UPI SMS → Get structured transaction data, analytics, and insights — instantly.
 
-[Features](#-key-features) • [Tech Stack](#-tech-stack) • [Project Structure](#-project-structure) • [API Docs](#-api-endpoints) • [Setup](#-local-setup)
+[Features](#-key-features) • [Tech Stack](#-tech-stack) • [Project Structure](#-project-structure) • [API Docs](#-api-endpoints) • [Setup](#-local-setup) • [Frontend Guide](#-frontend-setup-guide) • [Roadmap](#-roadmap)
 
 </div>
 
@@ -44,7 +44,7 @@
 | Parsing Engine | Regex (Pattern / Matcher) |
 | ORM | Spring Data JPA |
 | Database | H2 (in-memory) |
-| Response Format | Custom ApiResponse |
+| Response Format | Custom `ApiResponse<T>` |
 | Logging | SLF4J + Logback |
 | Build Tool | Maven |
 
@@ -63,9 +63,11 @@
 ## 📂 Project Structure
 
 ```
-upiparser/                          ← Monorepo root
+upiparser/                               ← Monorepo root
 │
-├── upiparser/                      ← Spring Boot Backend
+├── README.md
+│
+├── upiparser/                           ← Spring Boot Backend
 │   ├── src/main/java/com/example/upiparser/
 │   │   ├── controller/
 │   │   │   └── TransactionController.java
@@ -93,15 +95,15 @@ upiparser/                          ← Monorepo root
 │   ├── mvnw
 │   └── mvnw.cmd
 │
-└── upi-frontend/                   ← React + Vite Frontend
-    ├── src/
-    │   ├── App.jsx
-    │   ├── App.css
-    │   ├── main.jsx
-    │   └── index.css
+└── upi-frontend/                        ← React + Vite Frontend
     ├── index.html
-    ├── vite.config.js
-    └── package.json
+    ├── vite.config.js                   ← Proxy config (/api → localhost:8080)
+    ├── package.json
+    └── src/
+        ├── main.jsx
+        ├── index.css
+        ├── App.jsx
+        └── App.css
 ```
 
 ---
@@ -212,7 +214,19 @@ cd upiparser
 
 ---
 
-### Step 2 — Start the Backend
+### Step 2 — Add CorsConfig to Spring Boot
+
+Copy `CorsConfig.java` into your backend at:
+
+```
+upiparser/src/main/java/com/example/upiparser/config/CorsConfig.java
+```
+
+This allows the React frontend to call the Spring Boot API without CORS errors.
+
+---
+
+### Step 3 — Start the Backend
 
 ```bash
 cd upiparser
@@ -230,39 +244,73 @@ mvnw.cmd spring-boot:run
 
 > Backend runs at: **http://localhost:8080**
 
+Verify it works:
+```bash
+curl http://localhost:8080/api/transactions
+```
+
 ---
 
-### Step 3 — Start the Frontend
-
-Open a **new terminal:**
+### Step 4 — Install Frontend Dependencies
 
 ```bash
 cd upi-frontend
 npm install
+```
+
+---
+
+### Step 5 — Run the Frontend
+
+```bash
 npm run dev
 ```
 
 > Frontend runs at: **http://localhost:5173**
 
----
-
-### Step 4 — Open the Dashboard
-
-Visit **http://localhost:5173** in your browser.
+Open **http://localhost:5173** in your browser.
 
 ---
 
-## 🔗 How Frontend Connects to Backend
+## 🖥️ Frontend Setup Guide
 
-Vite's dev proxy forwards all API calls silently:
+### How the Connection Works
+
+Vite's dev proxy (configured in `vite.config.js`) forwards all `/api` requests from React to Spring Boot:
 
 ```
-Browser  →  http://localhost:5173/api/transactions
-                      ↓  Vite Proxy
-Backend  →  http://localhost:8080/api/transactions
+Browser → http://localhost:5173/api/transactions
+                    ↓ (Vite proxy)
+Backend → http://localhost:8080/api/transactions
 ```
 
-No CORS errors. No hardcoded backend URLs in React code.
+No CORS issues during development. No hardcoded backend URL in React code.
+
+---
+
+### API Endpoints Used by Frontend
+
+| Method | URL | Used For |
+|--------|-----|----------|
+| POST | /api/transactions/parse | Parse an SMS |
+| GET | /api/transactions | List all transactions |
+| GET | /api/transactions/total | Total spend amount |
+| GET | /api/transactions/merchant-count | Merchant frequency map |
+| GET | /api/transactions/count | Total transaction count |
+
+---
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+Output goes to the `dist/` folder. You can either serve it with any static file server, or configure Spring Boot to serve it by copying `dist/` contents into:
+
+```
+upiparser/src/main/resources/static/
+```
 
 ---
 
@@ -291,6 +339,19 @@ Sent ₹1200 to Rahul via BHIM UPI
 
 ---
 
+## 🔧 Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| "Backend unreachable" banner in UI | Start Spring Boot first on port 8080 |
+| CORS error in browser console | Make sure `CorsConfig.java` is added to backend |
+| Parse returns "Unable to parse SMS" | SMS must contain ₹amount + merchant keyword |
+| Port 5173 already in use | Change port in `vite.config.js` → `server: { port: 3000 }` |
+| `git push` rejected | Run `git pull origin main --allow-unrelated-histories` first |
+| Maven not found | Use `mvnw.cmd` (Windows) or `./mvnw` (Mac/Linux) instead |
+
+---
+
 ## 🌱 Roadmap
 
 - [x] Regex-based SMS parsing
@@ -298,6 +359,7 @@ Sent ₹1200 to Rahul via BHIM UPI
 - [x] Spring Data JPA persistence
 - [x] React dashboard with analytics
 - [x] Raw SMS file logging
+- [x] CORS configuration for frontend-backend connection
 - [ ] MySQL / PostgreSQL integration
 - [ ] JWT-based user authentication
 - [ ] UPI app detection (GPay / Paytm / PhonePe)
