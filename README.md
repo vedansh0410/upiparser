@@ -43,7 +43,7 @@
 | Framework | Spring Boot 3.x |
 | Parsing Engine | Regex (Pattern / Matcher) |
 | ORM | Spring Data JPA |
-| Database | H2 (in-memory) |
+| Database | MySQL |
 | Response Format | Custom `ApiResponse<T>` |
 | Logging | SLF4J + Logback |
 | Build Tool | Maven |
@@ -360,7 +360,7 @@ Sent ₹1200 to Rahul via BHIM UPI
 - [x] React dashboard with analytics
 - [x] Raw SMS file logging
 - [x] CORS configuration for frontend-backend connection
-- [ ] MySQL / PostgreSQL integration
+- [x] MySQL / PostgreSQL integration
 - [ ] JWT-based user authentication
 - [ ] UPI app detection (GPay / Paytm / PhonePe)
 - [ ] Monthly and weekly spending summaries
