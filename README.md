@@ -13,7 +13,7 @@
 
  Paste a UPI SMS → Get structured transaction data, analytics, and insights — instantly.
 
-[Features](#features) • [Tech Stack](#tech-stack) • [Project Structure](#structure) • [API Docs](#api) • [Setup](#setup) • [Frontend Guide](#frontend) • [Roadmap](#roadmap)
+[Features](#features) • [Tech Stack](#tech-stack) • [Project Structure](#structure) • [API Docs](#api) • [Setup](#setup) • [Frontend Guide](#frontend-guide) • [Roadmap](#roadmap)
 
 </div>
 
@@ -271,7 +271,7 @@ npm run dev
 Open **http://localhost:5173** in your browser.
 
 ---
-<a name="frontend"></a>
+<a name="frontend-guide"></a>
 ## 🖥️ Frontend Setup Guide
 
 ### How the Connection Works
