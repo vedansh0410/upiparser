@@ -13,7 +13,7 @@
 
  Paste a UPI SMS → Get structured transaction data, analytics, and insights — instantly.
 
-[Features](#key-features) • [Tech Stack](#tech-stack) • [Project Structure](#project-structure) • [API Docs](#api-endpoints) • [Setup](#local-setup) • [Frontend Guide](#frontend-setup-guide) • [Roadmap](#roadmap)
+[Features](#-key-features) • [Tech Stack](#-tech-stack) • [Project Structure](#-project-structure) • [API Docs](#-api-endpoints) • [Setup](#-local-setup) • [Frontend Guide](#-frontend-setup-guide) • [Roadmap](#-roadmap)
 
 </div>
 
